@@ -17,8 +17,8 @@ print(x)
 print(y)
 print(x.shape, y.shape)   # (506, 13) (506,)  
 
-print(datasets.feature_names)   #sklearn 에서만 가능
-print(datasets.DESCR)
+print(datasets.feature_names)   #sklearn 에서만 가능 # 컬럼,열의 이름들
+print(datasets.DESCR) # 데이터셋 및 컬럼에 대한 설명 
 
 #[실습] 아래를 완성할 것
 # 1. train 0.7
