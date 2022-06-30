@@ -17,7 +17,7 @@ print(train_set.shape)  # (1460, 81)
 
 
 test_set = pd.read_csv(path + 'test.csv')  #예측에서 씀
-                    #    index_col=0)  index_col=n. n번째 컬럼을 인덱스로 인식               
+                    #    index_col=0)  index_col=n  (n번째 컬럼을 인덱스로 인식)               
 print(test_set)
 print(test_set.shape)  # (1459, 79)
 
@@ -50,25 +50,26 @@ print(test_set.info())  # 결측치 = 이빨 빠진 데이터
 print(test_set.describe())  # [8 rows x 36 columns]
 
 
+
 '''
 #### 결측치 처리 1. 제거 ####
 print(train_set.isnull().sum()) #null의 합계를 구함
 train_set = train_set.dropna()
 test_set = test_set.fillna(test_set.mean())
 print(train_set.isnull().sum()) 
-print(train_set.shape)  # (1328, 10)
+print(train_set.shape)  # 
 
 
 
-x = train_set.drop(['datetime','casual','registered','count'], axis=1)
+x = train_set.drop([''], axis=1)
 print(x)
 print(x.columns)
-print(x.shape)  # (10886, 8)
+print(x.shape)  # 
 
 
 y = train_set['SaleType']
 print(y)
-print(y.shape)  #(10886,)
+print(y.shape)  # 
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, 
         train_size=0.7, shuffle=True, random_state=300)

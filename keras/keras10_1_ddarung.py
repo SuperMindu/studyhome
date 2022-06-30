@@ -12,8 +12,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 #1. 데이터
 path = './_data/ddarung/'  # .은 현재폴더라는 뜻
 train_set = pd.read_csv(path + 'train.csv',  # train.csv의 데이터들이 train_set에 수치화 돼서 들어간다 
-                        index_col=0
-                        )  # index_col=n. n번째 컬럼을 인덱스로 인식
+                        index_col=0)  # index_col=n. n번째 컬럼을 인덱스로 인식
 print(train_set)
 print(train_set.shape)  # (1459, 10)
 
@@ -27,9 +26,20 @@ print(test_set.shape)  # (715, 9)
 
 print(train_set.columns)
 print(train_set.info())  # 결측치 = 이빨 빠진 데이터
+
+'''
+(numpy의 주요 자료형)
+정수 (int), 실수(float), 복소수(complex), 논리(bool)
+numpy는 수치해석을 위한 라이브러리인 만큼, 숫자형 자료형에 대해서는 
+파이썬 내장 숫자자료형에 비해 더욱 더 자세히 나누어놓은 자료형이 존재함
+https://kongdols-room.tistory.com/53 <- 여기 보고 공부해보자
+https://numpy.org/doc/stable/user/basics.types.html <- numpy공식 홈피
+'''
+
 print(train_set.describe())  # 
 
 #### 결측치 처리 1. 제거 ####
+# 결측치를 처리하는 방법은 여러가지가 있는데 일단은 제거
 print(train_set.isnull().sum()) #null의 합계를 구함
 train_set = train_set.dropna()
 test_set = test_set.fillna(test_set.mean())
@@ -144,6 +154,12 @@ model.fit(x_train, y_train, epochs=600, batch_size=6)
 # RMSE :  28.950666294450354
 # 걸린시간 :  100.56669855117798 
 '''
+
+# 로스 0.001 r2 98 
+# 로스 0.0001 r2 97 
+# 이럴 경우 통상적으로 loss를 더 신뢰함
+# 리더보드와 나의 데이터가 다를 때는 내꺼를 믿자
+# 
 
 
 

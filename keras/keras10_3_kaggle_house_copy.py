@@ -27,8 +27,8 @@ submission = pd.read_csv(path + 'sample_submission.csv',#예측에서 쓸거야!
 # 문자열 피처는 일반적으로 카테고리형 피처와 텍스트형 피처를 의미
 # 카테고리형 피처는 코드 값으로 표현하는 게 더 이해하기 쉬울 듯?
 # 텍스트형 피처는 피처 벡터화등의 기법으로 벡터화하거나 불필요한 피처라고 판단되면 삭제하는 게 좋음
-# 예를 들어 주민번호나 단순 문자열 아이디와 같은 경우 인코딩하지 않고 삭제하는 게 더 좋음
-# 이러한 식별자 피처는 단순히 데이터 로우를 식별하는 용도로 사용되기 때문에 예측에 중요한 요소가 될 수 없으며 
+# 예를 들어 주민번호나 단순 문자열 아이디와 같은 경우 인코딩하지 않고 삭제하는 게 더 좋음 
+# 이런 식별자 피처는 단순히 데이터 로우를 식별하는 용도로 사용되기 때문에 예측에 중요한 요소가 될 수 없으며 
 # 알고리즘을 오히려 복잡하게 만들고 예측 성능을 떨어뜨리기 때문
 # 머신러닝을 위한 대표적인 인코딩 방식은 '레이블 인코딩(Label Encoding)'과 원-핫 인코딩이 있당
 '''
@@ -64,6 +64,8 @@ train_set = train_set.fillna(train_set.mean())
 print(train_set.isnull().sum())
 print(train_set.shape)
 test_set = test_set.fillna(test_set.mean())
+# dropna는 결측치를 아예 빼버리겠다는 것
+# fillna 
 
 x = train_set.drop(['SalePrice'],axis=1) #axis는 컬럼 
 print(x.columns)

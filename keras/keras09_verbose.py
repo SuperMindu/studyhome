@@ -40,10 +40,10 @@ model.compile(loss='mae', optimizer='adam')
 
 start_time = time.time()
 print(start_time)    # 1656032956.615129 
+
 model.fit(x_train, y_train, epochs=50, batch_size=1, verbose=0) #verbose = 매개변수 (중간 훈련과정 스킵, 시간 단축 가능)
+
 end_time = time.time() - start_time
-
-
 print("걸린시간 : ", end_time)
 
 

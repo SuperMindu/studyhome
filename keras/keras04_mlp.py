@@ -12,7 +12,7 @@ print(y.shape) # (10,)
 
 x = x.T
 print(x)
-print(x.shape)
+print(x.shape) 
 
 ### 행렬의 행과 열을 바꾸기, 행렬의 축을 바꾸는 3가지 방법
 
