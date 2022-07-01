@@ -1,6 +1,6 @@
 import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dense
 
 #1. 데이터
 x = np.array([range(10)])
@@ -15,6 +15,8 @@ print(x.shape) # (10, 1)
 y = np.array([[1,2,3,4,5,6,7,8,9,10],
              [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9],
              [9,8,7,6,5,4,3,2,1,0]])
+print(y.shape)
+
 y = np.transpose(y)
 print(y.shape)
 

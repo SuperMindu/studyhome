@@ -1,6 +1,6 @@
 import numpy as np 
-from tensorflow.keras.models import Sequential 
-from tensorflow.keras.layers import Dense 
+from tensorflow.python.keras.models import Sequential 
+from tensorflow.python.keras.layers import Dense 
 from sklearn.model_selection import train_test_split
 # 출처: https://rfriend.tistory.com/519 [R, Python 분석과 프로그래밍의 친구 (by R Friend):티스토리]
 

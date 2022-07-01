@@ -6,8 +6,8 @@ R2 score, R2 제곱
 음수도 나올 수 있음. 자세한 공식은 아직 내 레벨로는 알기에 부족함
 loss만 가지고 정확도를 보기에는 부족함이 있어서 R2 score로 점수를 메김
 '''
-from tensorflow.keras.models import Sequential 
-from tensorflow.keras.layers import Dense
+from tensorflow.python.keras.models import Sequential 
+from tensorflow.python.keras.layers import Dense
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score

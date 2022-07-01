@@ -39,9 +39,9 @@ model.add(Dense(1))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
 model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.25) # val_loss는 로스 값보다 조금 덜 떨어짐
-
-# validation_split=0.25 => 트레인 데이터의 25%를 val 하겠다 
-
+'''
+validation_split=0.25 => 트레인 데이터의 25%를 val 하겠다 
+'''
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)

@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd   # 엑셀 데이터 불러올 때 사용
 from pandas import DataFrame 
 import time
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 

@@ -1,6 +1,6 @@
 import numpy as np
-from tensorflow.keras.models import Sequential # 시퀀셜 모델과
-from tensorflow.keras.layers import Dense # 댄스 레이어를 쓸 수 있음
+from tensorflow.python.keras.models import Sequential # 시퀀셜 모델과
+from tensorflow.python.keras.layers import Dense # 댄스 레이어를 쓸 수 있음
 
 #1. 데이터 (정제해서 값 도출)
 x = np.array([1,2,3,5,4])

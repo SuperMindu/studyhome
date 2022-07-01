@@ -1,7 +1,7 @@
 # mlp = 멀티 레이어 퍼섹트론
 import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dense
 
 #1. 데이터 (행무시, 열우선)
 x = np.array([[1,2,3,4,5,6,7,8,9,10],
@@ -14,7 +14,7 @@ x = x.T
 print(x)
 print(x.shape) 
 
-### 행렬의 행과 열을 바꾸기, 행렬의 축을 바꾸는 3가지 방법
+### 행렬의 행과 열을 바꾸기, 행렬의 축을 바꾸는 3가지 방법 ###
 
 #1. a.T attribute (x = x.T) 이거 하나만으로 배열의 행과 열을 바꿔줌
 x = x.T
