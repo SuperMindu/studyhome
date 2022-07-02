@@ -7,10 +7,12 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
-
+'''
+'C:/study/study-home/_data/이름/'  <- 집에서 할때 데이터 파일 경로
+'''
 
 #1. 데이터
-path = './_data/ddarung/'  # .은 현재폴더라는 뜻
+path = 'C:/study/study-home/_data/ddarung/'  # .은 현재폴더라는 뜻
 train_set = pd.read_csv(path + 'train.csv',  # train.csv의 데이터들이 train_set에 수치화 돼서 들어간다 
                         index_col=0)  # index_col=n. n번째 컬럼을 인덱스로 인식
 print(train_set)
@@ -19,8 +21,8 @@ print(train_set.shape)  # (1459, 10)
 
 test_set = pd.read_csv(path + 'test.csv',  #예측에서 씀
                        index_col=0)
-# submission = pd.read_csv(path + 'submission.csv') # 일단 이거를 읽어와야 함
-submission_set = pd.read_csv('./_data/ddarung/submission.csv', index_col=0)
+submission = pd.read_csv(path + 'submission.csv') # 일단 이거를 읽어와야 함
+submission_set = pd.read_csv('C:/study/study-home/_data/ddarung/submission.csv', index_col=0)
 print(test_set)
 print(test_set.shape)  # (715, 9)
 
@@ -98,7 +100,7 @@ print(y_summit.shape)  # (715, 1)  # 이거를 submission.csv 파일에 쳐박�
 
 submission_set['count'] = y_summit
 print(submission_set)
-submission_set.to_csv('test1.csv', index=True)
+submission_set.to_csv('ddarung.csv', index=True)
 
 end_time = time.time() - start_time
 print("걸린시간 : ", end_time)

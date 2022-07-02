@@ -39,7 +39,8 @@ import time
 model.compile(loss='mse', optimizer='adam')
 
 from tensorflow.python.keras.callbacks import EarlyStopping # EarlyStopping 이건 클래스
-es = EarlyStopping(monitor='val_loss', patience=50, mode='min', verbose=1, restore_best_weights=True) # val_loss를 기준으로 중지를 시킴
+es = EarlyStopping(monitor='val_loss', patience=50, mode='min', verbose=1, restore_best_weights=True) 
+# val_loss를 기준으로 중지를 시킴
 # restore_best_weight=True 로 잡으면 최적의 weight를 가져올 수 있음 
 # mode= 여기는 max도 있음(애큐러시(monitor=)같이 높아질 수록 정확한 값들을 측정하기 위함). auto로 하면 알아서 잡아줌 개꿀
 # monitor= 에서 쓸 수 있는건 fit 에서 제공하는 것만 가능
@@ -85,7 +86,7 @@ plt.grid() # 보기 편하게 하기 위해서 모눈종이 형태
 plt.title('이걸바보')
 plt.ylabel('loss') # x와 y축 각각 이름을 설정 
 plt.xlabel('epochs') # x와 y축 각각 이름을 설정 
-plt.legend(loc='upper right')  # 위에 label 값이 여기에 명시가 된다 (디폴트 값이 upper right)
+plt.legend(loc='upper right')  # 위에 label 값이 이 위치에 명시가 된다 (디폴트 값이 upper right)
 plt.legend()
 plt.rcParams['font.family'] = 'Malgun Gothic'
 plt.show()

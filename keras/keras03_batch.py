@@ -25,11 +25,12 @@ model.add(Dense(1))
 # y = wx+b 최적의 weight 값을 구하기 위한 최소의 mse값을 찾음
 model.compile(loss='mse', optimizer='adam') 
 # 평균 제곱 에러 m s e <- 이 값(loss)은 작을수록 좋음. 
-# optimizer='adam'은 mse값(loss)을 감축시키는 역할. adam이 85퍼 이상이므로 꽤 괜
+# optimizer='adam'은 mse값(loss)을 감축시키는 역할. 보통 85퍼 이상이므로 꽤 괜
 model.fit(x, y, epochs=200, batch_size=1) 
+# fit 위의 데이터를 가지고 훈련을 함 
 # epoch 훈련량을 의미.
 # batch_size 몇개씩 데이터를 넣을지 지정해줌. 이게 작을수록 값이 정교해짐 시간 성능 속도?.. 근데 꼭 그렇지는 않은듯? 
-# fit 위의 데이터를 가지고 훈련을 함 
+
 
 #4. 평가, 예측
 loss = model.evaluate(x, y) # evaluate 평가하다
