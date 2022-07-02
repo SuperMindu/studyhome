@@ -206,7 +206,7 @@ print(hist.history) # loss 값과 var_loss값이 딕셔너리 형태로 저장�
 print('-------------------------------------------')
 print(hist.history['loss']) # hist.history에서 loss키 값의 value들을 출력해줌 # 키, 밸류 상의 로스는 문자이므로 '' 표시 
 print('-------------------------------------------')
-print(hist.history['val_loss']) # hist.history var_loss키 값의 value들을 출력해줌
+print(hist.history['val_loss']) # hist.history val_loss키 값의 value들을 출력해줌
 print('-------------------------------------------')
 print("걸린시간 : ", end_time)
 
@@ -220,8 +220,8 @@ print('r2스코어 : ', r2)
 acc = accuracy_score(y_test, y_predict)
 print('acc 스코어 : ', acc)
 
-def RMSE(y_test, y_predict): #괄호 안의 변수를 받아들인다 :다음부터 적용 
-    return np.sqrt(mean_squared_error(y_test, y_predict)) #루트를 씌워서 돌려줌 
+def RMSE(y_test, y_predict): # 괄호 안의 변수를 받아들인다 :다음부터 적용 
+    return np.sqrt(mean_squared_error(y_test, y_predict)) # 루트를 씌워서 돌려줌 
 # 이건 그냥 데이콘에서 따릉이 문제를 풀 때 평가지표를 RMSE 로 한다고 해서 함수로 rmse를 만들어 준거임
 
 rmse = RMSE(y_test, y_predict)  #y_test와 y_predict를 비교해서 rmse로 출력 (원래 데이터와 예측 데이터를 비교) 
@@ -253,7 +253,7 @@ plt.legend(loc='upper right')  # 위에 label 값이 이 위치에 명시가 된
 plt.show()
 # 그림도표를 보면서 과적합이 어떨 때 일어나는지 생각해보자
 # 많이 한다고 좋은게 아니다 그래프를 보면 값들이 줄어들었다가 팡 튀고 줄어들었다가 팡 튀고 하는 경우가 있음
-# 계속 여러번 돌려보면서 loss와 var_loss 격차가 많이 줄어가는걸 보면서 epoch량을 조절함
+# 계속 여러번 돌려보면서 loss와 val_loss 격차가 많이 줄어가는걸 보면서 epoch량을 조절함
 # val_loss가 최저점이다라는 말의 뜻은 y = wx + b 예측을 가장 잘했다는 뜻
 
 
