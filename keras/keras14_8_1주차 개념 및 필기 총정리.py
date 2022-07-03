@@ -13,6 +13,11 @@ import numpy as np
 # 기본적으로 array(배열)라는 단위로 데이터를 관리함
 # 고등수학의 행렬과 유사한 부분이 많음
 
+import pandas as pd   
+# pandas는 데이터 프레임 자료구조를 사용함
+# 즉, 엑셀의 스프레드시트와 유사해 데이터 처리가 쉬움
+# 엑셀 데이터(csv파일) 등을 불러올 때 사용함 (Dakon이나 kaggle의 대회 데이터를 받아서 불러올 때 필요함)
+
 from tensorflow.python.keras.models import Sequential 
 # tensorflow.python.keras.models 에서 Sequential 이라는 모델을 불러온다는 뜻
 # Sequential은 순차적이라는 뜻 즉 Sequential 모델(순차 모델)을 쓸 수 있음
@@ -62,11 +67,6 @@ from sklearn.metrics import mean_squared_error
 
 import time
 
-import pandas as pd   
-# pandas는 데이터 프레임 자료구조를 사용함
-# 즉, 엑셀의 스프레드시트와 유사해 데이터 처리가 쉬움
-# 엑셀 데이터(csv파일) 등을 불러올 때 사용함 (Dakon이나 kaggle의 대회 데이터를 받아서 불러올 때 필요함)
-
 from tensorflow.python.keras.callbacks import EarlyStopping  
 # callbacks 모듈에는 웬만한 인공지능 기능은 이미 다 구현이 되어있음. import해서 쓰면 됨
 # EarlyStopping 이건 클래스임. 그래서 대문자로 시작 (소문자로 시작하는 건 함수임)
@@ -97,9 +97,9 @@ print(train_set.info())  # 결측치 = 이빨 빠진 데이터
 
 #### 결측치 처리 1. 제거 ####
 # 결측치를 처리하는 방법은 여러가지가 있는데 일단은 제거하는 방법만 배움
-print(train_set.isnull().sum()) #null의 합계를 구함
-train_set = train_set.dropna()
-test_set = test_set.fillna(test_set.mean())
+print(train_set.isnull().sum()) # null의 합계를 구함
+train_set = train_set.dropna() # dropna() : train_set 에서 na, null 값 들어간 행 삭제
+test_set = test_set.fillna(test_set.mean()) # test_set 에서 이빨 빠진 데 ffill : 바로 위에서 가져오기 test_set.mean : 평균값으로 채우기
 print(train_set.isnull().sum()) 
 print(train_set.shape)  # (1328, 10)
 
@@ -114,7 +114,7 @@ y = train_set['count']
 print(y) # 만약 결과값이 0,1 밖에 없는걸 본다면 보는 순간 2진분류인거 판단 + loss 값 binary_crossEntropy랑 sigmoid() 함수인거 까지 자동으로 생각하자
 print(y.shape)  # (1459,) 
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, shuffle=True, random_state=31)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, shuffle=True, random_state=31) 
 
 
 
@@ -124,18 +124,17 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, shuffl
 # layer와 parameter를 추가하여 deep learning으로 만들어짐
 # 레이어층을 두껍게해서 다중신경망을 형성하여 그 뒤 컴파일하고 예측을 해보면 단일신경망일 때에 비하여 훈련량 (epochs)을 훨씬 줄여도 loss값을 구할 수 있음
 model = Sequential()
-model.add(Dense(1, activation='알맞은 함수를 넣자', input_dim=1))
-model.add(Dense(1, activation='알맞은 함수를 넣자')) 
-model.add(Dense(1, activation='알맞은 함수를 넣자'))
-model.add(Dense(1, activation='알맞은 함수를 넣자'))
-model.add(Dense(1, activation='알맞은 함수를 넣자'))
-# #activation='linear' -> 원래값을 그대로 넘겨줌. linear는 그냥 선. 직선으로 그냥 이어줌
-# 레이어에 노드와 노드 사이를 통과하면서 그냥 계속 연산만 하다보면 값이 너무 커져서 터짐
+model.add(Dense(10, activation='알맞은 활성함수를 넣자', input_dim=1))
+model.add(Dense(10, activation='알맞은 활성함수를 넣자')) 
+model.add(Dense(10, activation='알맞은 활성함수를 넣자'))
+model.add(Dense(10, activation='알맞은 활성함수를 넣자'))
+model.add(Dense(1, activation='알맞은 활성함수를 넣자'))
+# activation='linear' -> 원래값을 그대로 넘겨줌. linear는 그냥 선. 직선으로 그냥 이어줌
+# 레이어의 노드와 노드 사이를 통과하면서 그냥 계속 연산만 하다보면 값이 너무 커져서 터짐
 # sigmoid함수는 레이어를 거치며 커져버린 y=wx+b의 값들을 0.0 ~ 1.0사이로 잡아주는 역할을 함 (0 ~ 1 사이로 한정시킴)
 # 값이 너무 큰 거 같으면 히든레이어 중간에 sigmoid를 한번 써서 줄여줄 수도 있음
-# 이진분류에서는 마지막 아웃풋에서 0 과 1로 나와야 하기때문에 sigmoid는 마지막 아웃풋 레이어에 무조건 써줘야 함
-# 하지만 sigmoid는 1 ~ 0 사이로 한정시키기 때문에 0과 1로 분류해주기 위해 반올림을 해줘야한다 (0.5가 기준. 이상이면 1, 미만이면 0)
-# 분류모델에서 이진분류에서는 마지막 아웃풋 레이어에 sigmoid
+# 이진분류에서는 마지막 아웃풋에서 0 과 1로 나와야 하기 때문에 sigmoid는 마지막 아웃풋 레이어에는 무조건 써줘야 함
+# 하지만 sigmoid는 0 ~ 1 사이로 한정시키기 때문에 0과 1로 분류해주기 위해 반올림을 해줘야한다 (0.5가 기준. 이상이면 1, 미만이면 0)
 # activation='relu' 가 킹왕짱 (중간 히든레이어 에서만 쓸 수 있음) (음수는 0으로 만들어버림) (나머지는 원래 값을 그대로 넘겨주는 linear와 동일)
 # 회귀모델 activation = linear (default값) 이진분류는 sigmoid
 # 다중분류 에서는 ... 
@@ -156,7 +155,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy',
 # loss와 val_loss를 따지면 val_loss가 더 믿을만 함
 
 es = EarlyStopping(monitor='val_loss', patience=1, mode='min', verbose=1, restore_best_weights=True)
-# 아무거나 = EarlyStopping 이라고 선언을 해줘야 사용할 수 있음. 난 es로 쓸거임
+# 아무거나 = EarlyStopping 이런 식으로 선언을 해줘야 사용할 수 있음. 난 es로 쓸거임
 # monitor='' 에서 ''에 쓰는 것 기준으로 모니터링을 하며 중지시킴
 # monitor= 에서 쓸 수 있는건 fit 에서 제공하는 것만 가능
 # 멈추는 시점은 최소값 발견 직후 patience값에서 멈춤 
@@ -169,7 +168,7 @@ start_time = time.time() # <- 이거 넣어주면 여기서부터 시간 재기 
 
 hist = model.fit(x_train, y_train, epochs=1000, batch_size=30, validation_split=0.1, 
                  callbacks=[es], # <- 여기도 리스트형식 이라서 더 넣을 수 있음 (떡밥)
-                 verbose=1) #verbose = 매개변수 (중간 훈련과정 스킵, 시간 단축 가능)
+                 verbose=1) # verbose = 매개변수 (중간 훈련과정 스킵, 시간 단축 가능)
 # 지금까지 배운 기존의 Train & Test 시스템은 훈련 후 바로 실전을 치뤄서 실전에서 값이 많이 튀었음
 # 이걸 더 보완하기위해서 Train 후 validation(검증) 거치는 걸 1 epoch로 하여 계속반복하며 값을 수정 후
 # 여기서 validation에서 나오는 val_loss가 fit에 직접적으로 관여하지는 않지만 방향성을 제시해줌
@@ -195,20 +194,19 @@ loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)
 # 평가'만' 해본 후 나온 loss의 값임
 # val_loss와 loss의 차이가 적을수록 validation data가 더 최적의 weights를 도출시켜줘서 실제로 평가해봐도 차이가 적게 나온다는 말이므로 차이가 적을수록 좋음
-# model.evaluate도 model.fit처럼 수많은 값들을 loss안에 담아주는 줄 알았다 근데 보려고했더니
+# model.evaluate도 model.fit처럼 수많은 값들을 loss안에 담아주는 줄 알았음 근데 보려고 했더니
 # print(loss.history) loss도 hist처럼 history를 볼 수 있을줄 알았는데 'float' object has no attribute 'history' ('float' 개체에 'history' 속성이 없습니다.) 라고 나옴
 # numpy의 주료 자료형 중에 float는 실수라는 뜻
 
 print('-------------------------------------------')
 print(hist) # <tensorflow.python.keras.callbacks.History object at 0x000002B1B6638040>
 print('-------------------------------------------')
-print(hist.history) # loss 값과 var_loss값이 딕셔너리 형태로 저장되어 있음. epoch 값만큼의 개수가 저장되어 있움 -> 1epoch당 값을 하나씩 다 저장한다.
+print(hist.history) # loss 값과 val_loss값이 딕셔너리 형태로 저장되어 있음. epoch 값 만큼의 개수가 저장되어 있움 -> 1epoch당 값을 하나씩 다 저장한다.
 print('-------------------------------------------')
 print(hist.history['loss']) # hist.history에서 loss키 값의 value들을 출력해줌 # 키, 밸류 상의 로스는 문자이므로 '' 표시 
 print('-------------------------------------------')
 print(hist.history['val_loss']) # hist.history val_loss키 값의 value들을 출력해줌
 print('-------------------------------------------')
-print("걸린시간 : ", end_time)
 
 y_predict = model.predict(x_test) 
 # y의 예측값은 x의 테스트 값에 wx + b
@@ -224,7 +222,7 @@ def RMSE(y_test, y_predict): # 괄호 안의 변수를 받아들인다 :다음�
     return np.sqrt(mean_squared_error(y_test, y_predict)) # 루트를 씌워서 돌려줌 
 # 이건 그냥 데이콘에서 따릉이 문제를 풀 때 평가지표를 RMSE 로 한다고 해서 함수로 rmse를 만들어 준거임
 
-rmse = RMSE(y_test, y_predict)  #y_test와 y_predict를 비교해서 rmse로 출력 (원래 데이터와 예측 데이터를 비교) 
+rmse = RMSE(y_test, y_predict)  # y_test와 y_predict를 비교해서 rmse로 출력 (원래 데이터와 예측 데이터를 비교) 
 print("RMSE : ", rmse)
 
 y_summit = model.predict(test_set) 
