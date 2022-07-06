@@ -51,7 +51,7 @@ model.add(Dense(7, activation='softmax'))
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']) 
 es = EarlyStopping(monitor='val_loss', patience=100, mode='min', verbose=1, restore_best_weights=True)
-hist = model.fit(x_train, y_train, epochs=5000, batch_size=8192, verbose=1, validation_split=0.15, callbacks=[es])
+hist = model.fit(x_train, y_train, epochs=1, batch_size=8192, verbose=1, validation_split=0.15, callbacks=[es])
 
 #4. 평가, 예측
 results = model.evaluate(x_test, y_test)

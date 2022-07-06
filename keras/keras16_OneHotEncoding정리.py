@@ -15,6 +15,11 @@ from sklearn.preprocessing import OneHotEncoder  <-- sklearn 에서
 집가서 좀 더 아라보자 (사이킷런 원핫인코딩)
 https://daily-studyandwork.tistory.com/36 <- 여기
 https://psystat.tistory.com/136 <- 여기 
+
+
+
+.ipynb 로 다시한번 정리 해보자
+
 '''
 
 #***************************************<OneHotEncoding 하는 방법 3가지 정리>**********************************************
@@ -23,22 +28,24 @@ from tensorflow.keras.utils import to_categorical
 # y = to_categorical(y)
 # print(y)           # y값 보면 그냥 그안에 담긴 값만 딱 나옴
 # print(y.shape)     # (178, 3)
-# y라벨 값을 0부터 순차적으로 끝까지 변환해줌 
+# y의 label 값을 0부터 순차적으로 끝까지 변환해줌 
+# 무적권 0부터 시작함 (0이 없으면 만듦) (앞을 채워줘야 하는 경우 요놈 쓰면 좋음)
 
 # 방법 2. pandas 의 get_dummies
 from pandas import get_dummies
 # y = get_dummies(y)
 # print(y)           # y값 보면 행 0~177 열 유니크값 대로 0 1 2  마지막에 [178 rows x 3 columns] 까지 표시해줌
 # print(y.shape)     # (178, 3)
-# y라벨 값을 유니크값 만큼만 변환해주는데 print(y)해보면 라벨값이랑 인덱스정보가 들어가 있음
+# y의 label 값을 유니크값 만큼만 변환해주는데 print(y)해보면 라벨값이랑 인덱스정보가 들어가 있음
 
 # 방법 3. sklearn 의 OneHotEncoder
 from sklearn.preprocessing import OneHotEncoder
-# enco = OneHotEncoder(sparse=False)        
-# y = enco.fit_transform(y.reshape(-1,1))
+# enco = OneHotEncoder(sparse=False) # <-- 이렇게 선언 해주고 
+# sparse=True가 디폴트이며 이는 Metrics를 반환함 원핫인코딩에서 필요한 것은 array이므로 sparse 옵션에 False를 넣어줌
+# y = enco.fit_transform(y.reshape(-1,1)) # 2차원변환을 해주려면 행의 자리에 -1넣고 열의 자리에는 열의 개수대로 넣어주면 됨. 그러면 세로베열됨 (가로배열은(1,-1)임)
 # print(y)            # y값 보면 그냥 그안에 담긴 값만 딱 나옴  
 # print(y.shape)      # (178, 3)
-# y라벨 값을 유니크값 만큼만 변환해줌
+# y의 label 값을 유니크값 만큼만 변환해줌
 
 
 
@@ -178,7 +185,7 @@ print('acc 스코어 : ', acc)
 # 따라서 마지막 노드가 3개이기 때문에 
 
 # 그 3개를 합친 값은 1. 왜?
-# 다중분류이기 때문에 마지막 아웃풋 레이어에 들어가는 활성함수가 softmax 이기 때문에 
+# 다중분류이기 때문에 마지막 아웃풋 레이어에 들어가는 활성함수가 softmax 라서
 
 # y_test의 값은 y = to_categorical(y) 으로 이미 원핫인코딩이 돼 있는 상태임
 # [[0. 1. 0.]
@@ -223,7 +230,7 @@ print('acc 스코어 : ', acc)
 # [1 1 1 0 1 1 0 0 0 2 2 2 0 2 2 0 1 1 2 2 0 1 1 2 1 2 0 0 2 2] <-- 이렇게 위치 값이 나옴
 
 # (이건 axis 설명)
-# y_test = np.argmax(y_test, axis=1) 여기서 axis=1 이 나오는데 axis=1은 열을 따라 열을 기준으로 최대값을 뽑아준다는 뜻임
+# y_test = np.argmax(y_test, axis=1) 여기서 axis=1 이 또 나오는데 axis=1은 열을 따라 열을 기준으로 최대값을 뽑아준다는 뜻임
 # 자 이 밑에 x_test로 예측해서 나온 y_predict 값이 있는데
 # [[1.12961698e-03 9.97373819e-01 1.49650523e-03]
 #  [6.62750157e-04 9.93067384e-01 6.26994437e-03] 
