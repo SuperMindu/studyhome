@@ -14,12 +14,12 @@ from tensorflow.python.keras.callbacks import EarlyStopping
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7, random_state=66)
 
 # scaler = MinMaxScaler()
-scaler = StandardScaler()
-scaler = MaxAbsScaler()
-scaler = RobustScaler()
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
-x_test = scaler.transform(x_test)
+# scaler = StandardScaler()
+# scaler = MaxAbsScaler()
+# scaler = RobustScaler()
+# scaler.fit(x_train)
+# x_train = scaler.transform(x_train)
+# x_test = scaler.transform(x_test)
 
 # print(np.min(x_train)) # 
 # print(np.max(x_train)) # 
@@ -48,7 +48,7 @@ y_predict = model.predict(x_test)
 r2 = r2_score(y_test, y_predict)
 print('r2스코어 : ', r2)
 
-#        노말                                  MinMax                                   Standard                                    MaxAbs                               Robust               
-#                                                                                                                     
+#           노말                           MinMax                           Standard                          MaxAbs                          Robust               
+#                                                                                                                    
 #                                                                                                                     
 #                                                                                                                   

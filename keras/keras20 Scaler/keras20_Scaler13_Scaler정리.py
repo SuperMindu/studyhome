@@ -34,7 +34,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random
 # scaler = RobustScaler()
 # scaler = MaxAbsScaler()
 
-scaler.fit(x_train)       #어떤 비율로 변환할지 계산해줌.   여기서 구한 비율로 transform해준다.
+scaler.fit(x_train)       # 어떤 비율로 변환할지 계산해줌.   여기서 구한 비율로 transform해준다.
 x_train = scaler.transform(x_train)   
 # 훈련할 데이터 변환  
 # 원래대로라면 이러한 전처리는 컬럼 별로 일일이 해줘야 하지만, 이미 sklearn.preprocessing의 각 Scaler 클래스에서 다 제공함
