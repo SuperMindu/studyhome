@@ -30,13 +30,6 @@ scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
-# print(x)
-# print(y)
-# print(x.shape, y.shape)   # (506, 13) (506,)  
-# print(datasets.feature_names)   #sklearn 에서만 가능
-# print(datasets.DESCR)
-
-
 #2.  모델 구성
 model = Sequential()
 model.add(Dense(64, input_dim=13))

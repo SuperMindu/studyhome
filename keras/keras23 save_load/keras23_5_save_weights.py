@@ -46,11 +46,9 @@ model.add(Dense(8, activation='relu'))
 model.add(Dense(1))
 model.summary()
 
-# model.save('./_save/keras23_1_save_model.h5')                        # (1) <- model 다음에 여기 이건 그냥 모델 세이브 
 
 model.save_weights('./_save/keras23_5_save_weights1.h5')               # 
 
-# model = load_model('./_save/keras23_3_save_model.h5')                # (3) <- fit 다음에 세이브 해준 모델을 3번 위에서 다시 불러오면 weight값이 새로 구해지고 기존 weight에 덮어씌워짐
 
 
 # 3. 컴파일, 훈련 
@@ -58,11 +56,9 @@ model.compile(loss='mse', optimizer='adam')
 es = EarlyStopping(monitor='val_loss', patience=50, mode='min', restore_best_weights=True, verbose=1)
 model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, callbacks=[es], verbose=1) 
 
-# model.save('./_save/keras23_3_save_model.h5')                        # (2) <- fit 다음에 세이브를 해주면 model과 weight 까지 저장이 돼있음
 
 model.save_weights('./_save/keras23_5_save_weights2.h5')               #
 
-# model = load_model('./_save/keras23_3_save_model.h5')                # (4) <- 이게 최종형태 
 
 
 #4. 평가 예측

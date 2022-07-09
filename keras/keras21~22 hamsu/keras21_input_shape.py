@@ -16,7 +16,7 @@ print(x.shape) # (10, 3)
 #2. 모델 구성
 model = Sequential()
 # model.add(Dense(10, input_dim=3))  #(10, 3) -> (none, 3) 
-model.add(Dense(10, input_shape=(3,))) # input_shape=(컬럼의 갯수, ) 열을 제외한 나머지 컬럼들이 다 들어감
+model.add(Dense(10, input_shape=(3,))) # input_shape=(컬럼의 갯수, ) 행을 제외한 나머지 컬럼들이 다 들어감
 model.add(Dense(5))
 model.add(Dense(3))
 model.add(Dense(1))

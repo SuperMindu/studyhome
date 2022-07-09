@@ -46,32 +46,30 @@ model.add(Dense(8, activation='relu'))
 model.add(Dense(1))
 model.summary()
 
-# model.save('./_save/keras23_1_save_model.h5')                        # (1) <- model 다음에 여기 이건 그냥 모델 세이브 
 
-# model.save_weights('./_save/keras23_5_save_weights1.h5')             # (6) <- 훈련 시키기 전 
+# model.save_weights('./_save/keras23_5_save_weights1.h5')             # (5) <- 훈련 시키기 전 랜덤 weight
 
-# model = load_model('./_save/keras23_3_save_model.h5')                # (3) <- fit 다음에 세이브 해준 모델을 3번 위에서 다시 불러오면 weight값이 새로 구해지고 기존 weight에 덮어씌워짐
 
-# model.load_weights('./_save/keras23_5_save_weights1.h5')             # (5) <- RuntimeError: You must compile your model before training/testing. Use `model.compile(optimizer, loss)`.
+# model.load_weights('./_save/keras23_5_save_weights1.h5')             # (6) <- RuntimeError: You must compile your model before training/testing. Use `model.compile(optimizer, loss)`. 
 
 model = load_model('./_save/keras23_3_save_model.h5')                  # 
-model.load_weights('./_save/keras23_5_save_weights2.h5')               # (7) <- 얘는 훈련한 다음의 가중치가 저장 돼 있어서 loss와 r2가 동일하게 나옴
+model.load_weights('./_save/keras23_5_save_weights2.h5')               # (7) <- 얘는 훈련한 다음의 가중치가 저장 돼 있어서 loss와 r2가 동일하게 나옴 (3단계에서 컴파일만 살리면 됨)
 
 
 # 3. 컴파일, 훈련 
 model.compile(loss='mse', optimizer='adam')
-# es = EarlyStopping(monitor='val_loss', patience=50, mode='min', restore_best_weights=True, verbose=1)
-# model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, callbacks=[es], verbose=1) 
+es = EarlyStopping(monitor='val_loss', patience=50, mode='min', restore_best_weights=True, verbose=1)
+model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, callbacks=[es], verbose=1) 
 
-# model.save('./_save/keras23_3_save_model.h5')                        # (2) <- fit 다음에 세이브를 해주면 model과 weight 까지 저장이 돼있음
-
-# model.save_weights('./_save/keras23_5_save_weights2.h5')             # ()
-
-# model = load_model('./_save/keras23_3_save_model.h5')                # (4) <- 이게 최종형태 
+# model.save_weights('./_save/keras23_5_save_weights2.h5')             # <- weight 저장됨
 
 
-# save_model은 모델과 가중치 저장. weights 는 가중치'만' 저장됨
+
+# model.save는 모델과 가중치 저장. save_weights 는 가중치'만' 저장됨
 # 그래서 load_weights만 하면 모델은 불러와지지 않음
+
+# 저장된 weights를 불러올 때는 모델구성, compile을 해주면 됨(fit 생략)
+# 문제점 : 최적의 weight인가? 따라서 epoch당 가중치 저장(체크포인트 형식으로 저장)
 
 
 #4. 평가 예측
