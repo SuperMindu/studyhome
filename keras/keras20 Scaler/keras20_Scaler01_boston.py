@@ -44,7 +44,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random
 scaler = RobustScaler()
 # scaler.fit(x_train)
 # x_train = scaler.transform(x_train)
-x_train = scaler.fit_transform # <- fit, transform 한방에 (test는 하면 안됨)
+x_train = scaler.fit_transform(x_train) # <- fit, transform 한방에 (test는 fit 하면 안됨)
 x_test = scaler.transform(x_test)
 
 # print(np.min(x_train)) # 0.0
