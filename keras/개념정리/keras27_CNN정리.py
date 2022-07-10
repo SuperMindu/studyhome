@@ -15,7 +15,7 @@ model.add(Conv2D(filters=10, kernel_size=(2,2), # 출력 (N, 4, 4, 10) # kernel_
 # 다음 레이어의 input_shape으로 전달 될 때는 (n, 4, 4, 10) -> (N, (행-커널사이즈의 행)+1/1, (열-커널사이즈의 열)+1/1, 필터값)
 # model.summary()  # (kernel_size * channels + bias) * filters = summary Param 갯수 (CNN 모델)
 
-# model.add(Conv2D(7, (2,2), activation='relu')) # 출력 (N, 3, 3, 7)
+# model.add(Conv2D(7, (2,2), activation='relu')) 
 
 model.add(MaxPooling2D()) # dropout과 비슷한 개념인듯? conv2d가 kernel을 이용해서 중첩시키며 특성을 추출해나간다면 maxpoolig은 픽셀을 묶어서 그중에 가장 큰값만 뺌
                           # MaxPooling은 값을 반으로 계속 줄여나감. default = 2,2 (4픽셀당 1개값)

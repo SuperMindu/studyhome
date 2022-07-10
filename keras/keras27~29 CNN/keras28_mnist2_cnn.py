@@ -53,7 +53,7 @@ model.add(Conv2D(filters=64, kernel_size=(3,3),
                  input_shape=(28, 28, 1))) 
 model.add(MaxPooling2D())
 model.add(Conv2D(32, (2,2),
-                 padding='same', # 이게 padding의 디폴트 값
+                 padding='same',
                  activation='relu')) 
 model.add(Conv2D(32, (2,2),
                  padding='valid', # 이게 padding의 디폴트 값

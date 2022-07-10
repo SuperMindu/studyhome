@@ -19,12 +19,12 @@ from tensorflow.python.keras.layers import Dense, Input # Input 레이어를 불
 # model = Sequential() # 시퀀셜 모델은 먼저 모델을 정의하고 시작함
 # model.add(Dense(10, input_dim=3)) add로 층을 쌓아감
 # model.add(Dense(10, input_shape=(3,))) 
-# input_shape=(컬럼의 갯수, ) 행을 제외한 나머지 컬럼들이 다 들어감. 또한, 차원이 늘어나면 행(x값)다 때고 열 columns 값만 씀
+# input_shape=(컬럼의 갯수, ) 행을 제외한 나머지 컬럼들이 다 들어감. 또한, 차원이 늘어나면 행(x값)다 떼고 열 columns 값만 씀
 # model.add(Dense(5, activation='relu'))
 # model.add(Dense(3, activation='sigmoid'))
 # model.add(Dense(1))
 
-input1 = Input(shape=(3,)) # input을 명시하고 shape 찍어주고 input1
+input1 = Input(shape=(3,)) # Input을 명시하고 shape 찍어주고 input1
 dense1 = Dense(10)(input1) # input1이 dense1 레이어의 입력
 dense2 = Dense(5, activation='relu')(dense1) # dense1이 dense2 레이어의 입력.  이런식으로 연결됨
 dense3 = Dense(3, activation='sigmoid')(dense2)
