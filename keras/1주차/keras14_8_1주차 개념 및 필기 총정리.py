@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd   
 # pandas는 데이터 프레임 자료구조를 사용함
 # 즉, 엑셀의 스프레드시트와 유사해 데이터 처리가 쉬움
-# 엑셀 데이터(csv파일) 등을 불러올 때 사용함 (Dakon이나 kaggle의 대회 데이터를 받아서 불러올 때 필요)
+# 엑셀 데이터(csv파일) 등을 불러올 때 사용함 (Dakon이나 kaggle의 대회 데이터를 받아서 불러올 때 필요함)
 
 from tensorflow.python.keras.models import Sequential 
 # tensorflow.python.keras.models 에서 Sequential 이라는 모델을 불러온다는 뜻
@@ -100,7 +100,7 @@ print(train_set.info())  # 결측치 = 이빨 빠진 데이터
 # 결측치를 처리하는 방법은 여러가지가 있는데 일단은 제거하는 방법만 배움
 print(train_set.isnull().sum()) # null의 합계를 구함
 train_set = train_set.dropna() # dropna() : train_set 에서 na, null 값 들어간 행 삭제
-test_set = test_set.fillna(test_set.mean()) # test_set 에서 이빨 빠진 데 ffill : 바로 위에서 가져오기 test_set.mean : test_set의 평균값으로 채우기
+test_set = test_set.fillna(test_set.mean()) # test_set 에서 이빨 빠진 데 ffill : 바로 위에서 가져오기 test_set.mean : 평균값으로 채우기
 print(train_set.isnull().sum()) 
 print(train_set.shape)  # (1328, 10)
 
@@ -137,7 +137,7 @@ model.add(Dense(1, activation='알맞은 활성함수를 넣자'))
 # 이진분류에서는 마지막 아웃풋에서 0 과 1로 나와야 하기 때문에 sigmoid는 마지막 아웃풋 레이어에는 무조건 써줘야 함
 # 하지만 sigmoid는 0 ~ 1 사이로 한정시키기 때문에 0과 1로 분류해주기 위해 반올림을 해줘야한다 (0.5가 기준. 이상이면 1, 미만이면 0)
 # activation='relu' 가 킹왕짱 (중간 히든레이어 에서만 쓸 수 있음) (음수는 0으로 만들어버림) (나머지는 원래 값을 그대로 넘겨주는 linear와 동일)
-# 마지막 레이어 회귀모델 activation = linear (default값) 이진분류는 sigmoid
+# 회귀모델 activation = linear (default값) 이진분류는 sigmoid
 # 다중분류 에서는 ... 
 
 
@@ -188,7 +188,7 @@ loss = model.evaluate(x_test, y_test)
 # evaluate의 평가값은 1개로 귀결됨. loss를 출력해보면 값이 1개만 나옴 ... 그랬는데
 # 근데 matrics=['accuracy'] 써서 정확도를 출력하니까 갑자기 값이 2개가 나옴
 # 첫번재 값은 loss고 두번째 값은 matrics=['accuracy'] 값이 출력됨
-# [ ] 는? 리스트. 안에 값을 여러개 담을때 사용함. evaluate 값 출력했을 때 첫번째 값은 무조건 loss나오고 그 후의 값은 사전에 설정해준 값들이 순차적으로 나옴
+# [ ] 는? 리스트. 안에 값을 여러개담을때 사용함. evaluate 값 출력했을 때 첫번째 값은 무조건 loss나오고 그 후의 값은 사전에 설정해준 값들이 순차적으로 나옴
 # loss라는 이름안에 evaluate의 값들을 저장. loss가 따로있는 게 아님
 # 컴파일 단계에서 도출된 weight 및 bias값에 xy_test를 넣어서 평가만. 해보고 거기서 나온 loss값들(?)을 저장함
 
