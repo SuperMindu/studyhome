@@ -81,8 +81,8 @@ test_set['Month'] = test_set['Date'].dt.month
 test_set['Day'] = test_set['Date'].dt.day
 print(test_set)
 
-train_set.drop(['id', 'Date','Weekly_Sales', 'Month', 'Temperature', 'Promotion1', 'Promotion2', 'Promotion3', 'Promotion4', 'Promotion5'],axis=1,inplace=True) # (이미 id는 없애줬고, Date는 년월일 분리를 해줬고, Weekly_Sales도 없애줬기 때문에) 트레인 세트에서 원래 컬럼들을 드랍
-test_set.drop(['id', 'Date', 'Month', 'Temperature', 'Promotion1', 'Promotion2', 'Promotion3', 'Promotion4', 'Promotion5'],axis=1,inplace=True)
+train_set.drop(['id', 'Date','Weekly_Sales'],axis=1,inplace=True) # (이미 id는 없애줬고, Date는 년월일 분리를 해줬고, Weekly_Sales도 없애줬기 때문에) 트레인 세트에서 원래 컬럼들을 드랍
+test_set.drop(['id', 'Date'],axis=1,inplace=True)
 
 
 
@@ -239,7 +239,7 @@ hist = model.fit(x_train, y_train, epochs=3000, batch_size=128,
 '''
 
 
-
+'''
 #4. 평가, 예측
 
 print("=============================1. 기본 출력=================================")
@@ -276,3 +276,4 @@ print(submission_set)
 
 
 submission_set.to_csv(path + 'submission_randomforest.csv', index = True)
+'''
