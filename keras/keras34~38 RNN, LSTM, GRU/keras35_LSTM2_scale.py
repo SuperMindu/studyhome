@@ -15,7 +15,7 @@ print(x.shape) # (13, 3, 1)
 
 model = Sequential()
 model.add(LSTM(512, input_shape=(3, 1))) # SimpleRNN 에서 Dense로 넘어갈 때 자동적으로 2차원으로 던져줌
-#               └> units           └> input_dim 
+#                └> units           └> input_dim 
 
 model.add(Dense(256, activation='relu')) 
 model.add(Dense(256, activation='relu'))
@@ -27,8 +27,8 @@ model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-es = EarlyStopping(monitor='loss', patience=100, mode='min', verbose=1, restore_best_weights=True)
-model.fit(x, y, epochs=700, batch_size=1, callbacks=[es], verbose=1)
+es = EarlyStopping(monitor='loss', patience=150, mode='min', verbose=1, restore_best_weights=True)
+model.fit(x, y, epochs=1000, batch_size=1, callbacks=[es], verbose=1)
 
 #4. 평가, 예측
 loss = model.evaluate(x, y)
