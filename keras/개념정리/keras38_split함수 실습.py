@@ -82,7 +82,7 @@ print(ccc.shape) # (7, 4)
 # 모델 구성 및 평가 예측
 model = Sequential()
 model.add(LSTM(64, return_sequences=True, input_shape=(4, 1))) 
-#               └> units           └> input_dim 
+#               └> units                                  └> input_dim 
 model.add(LSTM(64, input_shape=(4, 1))) 
 model.add(Dense(64, activation='relu')) 
 model.add(Dense(32, activation='relu'))

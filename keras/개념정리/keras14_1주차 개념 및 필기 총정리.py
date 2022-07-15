@@ -9,7 +9,7 @@
 #***************************************<본격적으로 모델을 코딩하기 전 필요한 라이브러리나 데이터셋 등을 불러오는 단계>**********************************************
 import numpy as np 
 # numpy는 행렬이나 대규모 다차원 배열을 쉽게 처리할 수 있도록 지원하는 파이썬의 라이브러리임
-# 벡터나 행렬연산에 있어서 엄청난 편의성을 제공함
+# 벡터나 행렬, 부동소수점 연산에 있어서 엄청난 편의성을 제공함
 # 밑에 나올 pandas나 matplotlib 등의 기반이 되는 라이브러리임
 # 기본적으로 array(배열)라는 단위로 데이터를 관리함
 # 고등수학의 행렬과 유사한 부분이 많음
@@ -100,7 +100,7 @@ print(train_set.info())  # 결측치 = 이빨 빠진 데이터
 # 결측치를 처리하는 방법은 여러가지가 있는데 일단은 제거하는 방법만 배움
 print(train_set.isnull().sum()) # null의 합계를 구함
 train_set = train_set.dropna() # dropna() : train_set 에서 na, null 값 들어간 행 삭제
-test_set = test_set.fillna(test_set.mean()) # test_set 에서 이빨 빠진 데 ffill : 바로 위에서 가져오기 test_set.mean : test_set의 평균값으로 채우기
+test_set = test_set.fillna(test_set.mean()) # test_set 에서 이빨 빠진 데 fill : 바로 위에서 가져오기 test_set.mean : test_set의 평균값으로 채우기
 print(train_set.isnull().sum()) 
 print(train_set.shape)  # (1328, 10)
 

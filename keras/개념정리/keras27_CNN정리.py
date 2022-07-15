@@ -12,7 +12,8 @@ model = Sequential()
 # model.summary()  # (input_dim + bias) * units = summary Param 갯수 (Dense레이어 모델)
 
 model.add(Conv2D(filters=10, kernel_size=(2,2), # 출력 (N, 4, 4, 10) # kernel_size=(이미지를 자르는 규격) 
-                 input_shape=(5, 5, 1))) # (N, 5, 5, 1) -> (batch_size, rows, colums, channels) -> (이미지 개수, 행, 열, 흑백 or 컬러 정의) ### 이 input_shape는 모델에서 첫 레이어일 떄만 정의하면 됨
+                 input_shape=(5, 5, 1))) # (N, 5, 5, 1) -> (batch_size, rows, colums, channels) -> (이미지 개수, 행, 열, 흑백 or 컬러 정의) 
+#                └> 이 input_shape는 모델에서 첫 레이어에서만 정의하면 됨
 # 다음 레이어의 input_shape으로 전달 될 때는 (n, 4, 4, 10) -> (N, (input_shape행-커널사이즈의 행)+1/1, (input_shape열-커널사이즈의 열)+1/1, 필터값)
 # model.summary()  # (kernel_size * channels + bias) * filters = summary Param 갯수 (CNN 모델)
 

@@ -17,7 +17,7 @@ from tensorflow.python.keras.callbacks import EarlyStopping
 # 게이트는 가중치를 가진 은닉층으로 생각할 수 있음. 각 가중치는 sigmoid층에서 갱신되며 0과 1사이의 값을 가짐
 # 이 값에 따라 입력되는 값을 조절하고, 오차에 의해 각 단계(time step)에서 갱신됨
 
-# activation tanh Function
+# activation='tanh' Function
 # sigmoid fuction을 보완하고자 나온 함수. 입력신호를 (−1,1) 사이의 값으로 normalization 해줌.
 # 거의 모든 방면에서 sigmoid보다 성능이 좋음.
 # 수식 : tanh(x) = e^x - e^-x / e^x + e^-x
@@ -37,7 +37,7 @@ print(x.shape) # (7, 3, 1)
 
 #2. 모델구성
 model = Sequential() #          ┌> input_length
-model.add(LSTM(64, input_shape=(3, 1))) # input_shape는 행 빼고 들어가서 형태는 -1차원이 됨 (x.shape가 3차원 이었으니까 input_shape는 2차원)
+model.add(LSTM(64, input_shape=(3, 1))) # input_shape는 행 빼고 들어가서 형태는 -1차원이 됨 (reshape해서 x.shape가 3차원 이었으니까 input_shape는 2차원)
 #               └> units           └> input_dim 
 
 # model.add(LSTM(10, return_sequences=True, input_shape=(3, 1))) # (N, 3, 1) -> (N, 3, 10) # return_sequences=True로 하면 아웃풋을 3차원으로 해서 던져줌 (차원이 하나 더 늘어나는 개념)
