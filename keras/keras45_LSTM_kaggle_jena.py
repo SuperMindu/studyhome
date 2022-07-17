@@ -48,8 +48,7 @@ data_set = pd.read_csv(path + 'jena_climate_2009_2016.csv')
 # print(data_set) # [420551 rows x 15 columns]
 # print(data_set.shape) # (420551, 15)
 
-df1 = data_set(['Date Time'])
-print(df1)
+print(type('Date time'))
 
 
 

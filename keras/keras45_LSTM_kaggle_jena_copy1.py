@@ -61,23 +61,23 @@ print(y.shape) #(14,)
 ###################리세이프#######################
 x = x.reshape(14, 647, 650)
 df_test = df_test.reshape(14, 647, 650)
-print(x.shape)
+print(x.shape) # (14, 647, 650)
 # print(np.unique(y_train, return_counts=True))
 #################################################
 
 
 #2. 모델구성
 model = Sequential()
-model.add(Conv1D(20,3, input_shape=(647,650)))
+model.add(Conv1D(64,32, input_shape=(647,650)))
 model.add(MaxPooling1D())
-model.add(LSTM(16))
+model.add(LSTM(64))
 model.add(BatchNormalization())
 model.add(Dropout(0.2))
-model.add(Dense(16, activation='relu'))
+model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.2))
-model.add(Dense(8, activation='relu'))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(1))
-model.summary()  
+# model.summary()  
 
 
 
@@ -104,7 +104,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', patience=10, mode='auto', verb
 #                       filepath= "".join([save_filepath, date, '_', filename])
 #                       )
 
-hist = model.fit(x, y, epochs=100, batch_size=300,
+hist = model.fit(x, y, epochs=100, batch_size=512,
                  validation_split=0.2,
                  callbacks=[earlyStopping],
                  verbose=1)
@@ -114,9 +114,9 @@ loss = model.evaluate(x, y)
 y_predict = model.predict(x)
 y_summit = model.predict(df_test)
 
-print(y_predict.shape) #(14, 16, 1)
-print(y_summit.shape) # (14, 16, 1)
-print(df_test.shape) # (14, 647, 650)
+# print(y_predict.shape) #(14, 16, 1)
+# print(y_summit.shape) # (14, 16, 1)
+# print(df_test.shape) # (14, 647, 650)
 
 
 # acc = accuracy_score(y, y_predict)
