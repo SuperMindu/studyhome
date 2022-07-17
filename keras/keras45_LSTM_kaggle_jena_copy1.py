@@ -104,7 +104,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', patience=10, mode='auto', verb
 #                       filepath= "".join([save_filepath, date, '_', filename])
 #                       )
 
-hist = model.fit(x, y, epochs=1, batch_size=300,
+hist = model.fit(x, y, epochs=100, batch_size=300,
                  validation_split=0.2,
                  callbacks=[earlyStopping],
                  verbose=1)
@@ -123,4 +123,4 @@ print(df_test.shape) # (14, 647, 650)
 print('loss : ', loss)
 print('2017.01.01 00:10:00의 날씨 : ', y_summit)
 # print('acc스코어 : ', acc)
-print("time :", time.time() - start)
+# print("time :", time.time() - start)

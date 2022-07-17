@@ -45,8 +45,11 @@ path = './_data/kaggle_jena/'
 
 # "Date Time","p (mbar)","T (degC)","Tpot (K)","Tdew (degC)","rh (%)","VPmax (mbar)","VPact (mbar)","VPdef (mbar)","sh (g/kg)","H2OC (mmol/mol)","rho (g/m**3)","wv (m/s)","max. wv (m/s)","wd (deg)"
 data_set = pd.read_csv(path + 'jena_climate_2009_2016.csv')
-print(data_set) # [420551 rows x 15 columns]
-print(data_set.shape) # (420551, 15)
+# print(data_set) # [420551 rows x 15 columns]
+# print(data_set.shape) # (420551, 15)
+
+df1 = data_set(['Date Time'])
+print(df1)
 
 
 
