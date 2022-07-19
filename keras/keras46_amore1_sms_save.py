@@ -1,17 +1,21 @@
 # 19일 09시 아모레 시가(20%), 20일 종가(80%) 맞추기
 # 거래량 반드시. 7개 이상의 컬럼 쓰기
 # 삼전이랑 앙상블 해서 만들기
+import tensorflow as tf
 import numpy as np
 import pandas as pd
 from sqlalchemy import true 
 from tensorflow.python.keras.models import Sequential, Model
-from tensorflow.python.keras.layers import LSTM, Activation, Dense, Conv2D, Flatten, MaxPooling2D, Input, Dropout
+from tensorflow.python.keras.layers import LSTM, Activation, Dense, Conv2D, Flatten, MaxPooling2D, Input, Dropout, Conv1D
 from keras.layers.recurrent import SimpleRNN
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.preprocessing import MaxAbsScaler, RobustScaler
 from sklearn.preprocessing import LabelEncoder
+from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
+import datetime
+from sklearn.metrics import r2_score, accuracy_score
 import datetime as dt
 
 ###########################폴더 생성시 현재 파일명으로 자동생성###########################################
@@ -26,204 +30,153 @@ current_name = a.split("\\")[-1]
 ''' 1-1) 데이터 로드 '''
 df_amore=pd.read_csv('./_data/test_amore_0718/아모레220718.csv', thousands=',', encoding='cp949') # 아모레 데이터 로드
 df_samsung=pd.read_csv('./_data/test_amore_0718/삼성전자220718.csv', thousands=',', encoding='cp949') # 삼성전자 데이터 로드
-df_amore.describe()
+# df_amore.describe()
+# print(df_amore.columns)
+# Index(['시가', '고가', '저가', '종가', '전일비', 'Unnamed: 6', '등락률', '거래량', '금액(백만)',
+#        '신용비', '개인', '기관', '외인(수량)', '외국계', '프로그램', '외인비'],
+#       dtype='object')
 
-   
 ''' 1-2) 데이터 정제 '''
-# 결측치 확인
-# print(df_amore.info()) 
+# 결측치 확인 및 처리 
+# print(df_amore.isnull()) 
+# print(df_samsung.isnull()) 
+# df_amore = df_amore.dropna()
+# df_samsung = df_samsung.dropna()
+df_amore = df_amore.fillna(0)
+df_samsung = df_samsung.fillna(0)
 
 # 이상치 확인
 # q3 = df_amore.quantile(0.75) 
 # q1 = df_amore.quantile(0.25)
 # iqr = q3 - q1
 
-# 필요없는 컬럼 삭제
-df_amore = df_amore.drop(['등락률', 'Unnamed: 6', '전일비', '금액(백만)', '신용비', '개인', '외인(수량)', '프로그램', '외인비'], axis=1) 
-df_amore = df_amore.drop(['Unnamed: 6'], axis=1) 
-df_samsung = df_samsung.drop(['등락률'], axis=1) 
-df_samsung = df_samsung.drop(['Unnamed: 6'], axis=1) 
-# print(df_amore)
-# print(df_samsung)
+# 데이터 사용할 기간 설정
+df_amore = df_amore.loc[df_amore['일자']>="2018/05/04"]
+df_samsung = df_samsung.loc[df_samsung['일자']>="2018/05/04"]
+print(df_amore.shape, df_samsung.shape) # (1035, 17) (1035, 17)
 
-# 년월일 분리 및 요일 추가
+# 데이터 오름차순 정렬
+df_amore = df_amore.sort_values(by=['일자'], axis=0, ascending=True) 
+df_samsung = df_samsung.sort_values(by=['일자'], axis=0, ascending=True)
+
+# 필요없는 컬럼 삭제
+df_amore = df_amore.drop(['전일비', 'Unnamed: 6', '등락률', '금액(백만)', '신용비', '개인', '외인(수량)', '프로그램', '외인비'], axis=1) 
+df_samsung = df_samsung.drop(['전일비', 'Unnamed: 6', '등락률','금액(백만)', '신용비', '개인', '외인(수량)', '프로그램', '외인비'], axis=1) 
+print(df_amore.shape, df_samsung.shape) # (1035, 8) (1035, 8)
+
+# 년월일 분리 
 df_amore['날짜_datetime'] = pd.to_datetime(df_amore['일자'])
 df_amore['년'] = df_amore['날짜_datetime'].dt.year
 df_amore['월'] = df_amore['날짜_datetime'].dt.month
 df_amore['일'] = df_amore['날짜_datetime'].dt.day
-df_amore['요일'] = df_amore['날짜_datetime'].dt.day_name()
+# df_amore['요일'] = df_amore['날짜_datetime'].dt.day_name()
 df_amore = df_amore.drop(['일자', '날짜_datetime'], axis=1) 
 
 df_samsung['날짜_datetime'] = pd.to_datetime(df_samsung['일자'])
 df_samsung['년'] = df_samsung['날짜_datetime'].dt.year
 df_samsung['월'] = df_samsung['날짜_datetime'].dt.month
 df_samsung['일'] = df_samsung['날짜_datetime'].dt.day
-df_samsung['요일'] = df_samsung['날짜_datetime'].dt.day_name()
+# df_samsung['요일'] = df_samsung['날짜_datetime'].dt.day_name()
 df_samsung = df_samsung.drop(['일자', '날짜_datetime'], axis=1) 
 # print(df_amore)
 # print(df_samsung)
-print(df_amore.shape) # (3180, 18)
-print(df_samsung.shape) # (3040, 18)
-
-# 라벨인코딩
-# df_amore, df_samsung=['요일']
-# encoder = LabelEncoder()
-for col in ['요일']:
-    encoder = LabelEncoder()
-    df_amore[col] = encoder.fit_transform(df_amore[col])
-df_amore.loc[:,['요일']].head()
-# print(labels)
-print(df_amore)
-
-for col in ['요일']:
-    encoder = LabelEncoder()
-    df_samsung[col] = encoder.fit_transform(df_samsung[col])
-df_samsung.loc[:,['요일']].head()
-# print(labels)
-print(df_samsung)
-
-# 필요 없는 행 삭제
-df_amore = df_amore.drop(index=[1773,1774,1775,1776,1777,1778,1779,1780,1781,1782])
-df_samsung = df_samsung.drop(index=[1037,1038,1039])
-# print(df_amore.shape) # (3170, 18)
-# print(df_samsung.shape) # (3037, 18)
-
-# 하아아아아아아아앙
+print(df_amore.shape, df_samsung.shape) # (1035, 10) (1035, 10)
 
 
+# 피처 및 타겟 데이터 지정
+feature_data = ['년', '월', '일', '시가', '고가', '저가', '종가', '거래량', '기관', '외국계']
+target_data = ['종가']
 
-'''
-print(train_set)
-print(train_set.shape) # (10886, 12)
-                  
-print(test_set)
-print(test_set.shape) # (6493, 9)
-print(test_set.info()) # (715, 9)
-print(train_set.columns)
-print(train_set.info()) # info 정보출력
-print(train_set.describe()) # describe 평균치, 중간값, 최소값 등등 출력
+# 시계열 데이터 함수 및 train_test_split
+def split_x(dataset, size):
+    aaa = []
+    for i in range(len(dataset) - size + 1):
+        subset = dataset[i : (i + size)]
+        aaa.append(subset)
+    return np.array(aaa)
 
+SIZE = 20
+x1 = split_x(df_amore[feature_data], SIZE)
+x2 = split_x(df_samsung[feature_data], SIZE)
+y = split_x(df_amore[target_data], SIZE)
+x1 = x1[:, :-1]                                
+x2 = x2[:, :-1]                                
+y = y[:, -1]
+print(y.shape) # (1016, 1)
 
-##########################################
+x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1, x2, y, train_size=0.8, shuffle=False)
+print(x1_train.shape, x1_test.shape, x2_train.shape, x2_test.shape, y_train.shape, y_test.shape)
+# (812, 20, 7) (204, 20, 7) (812, 20, 7) (204, 20, 7) (812, 20, 1) (204, 20, 1)
+# (812, 19, 7) (204, 19, 7) (812, 19, 7) (204, 19, 7) (812, 1) (204, 1)
+# (812, 19, 7) (204, 19, 7) (812, 19, 7) (204, 19, 7) (812, 1) (204, 1)
 
-
-x = train_set.drop(['count'], axis=1)  # drop 데이터에서 ''사이 값 빼기
-print(x)
-print(x.columns)
-print(x.shape) # (10886, 12)
-
-y = train_set['count'] 
-print(y)
-print(y.shape) # (10886,)
-
-x_train, x_test, y_train, y_test = train_test_split(x,y,
-                                                    train_size=0.75,
-                                                    random_state=31
-                                                    )
-
-# scaler = MinMaxScaler()
-scaler = StandardScaler()
+# 스케일링 및 reshape
+scaler = MinMaxScaler()
+# scaler = StandardScaler()
 # scaler = MaxAbsScaler()
 # scaler = RobustScaler()
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
-x_test = scaler.transform(x_test)
-test_set = scaler.transform(test_set)
+x1_train = x1_train.reshape(812*19, 10)
+x1_train = scaler.fit_transform(x1_train)
+x1_test = x1_test.reshape(204*19, 10)
+x1_test = scaler.transform(x1_test)
 
-print(x_train.shape)
-print(x_test.shape) 
-###################리세이프#######################
-x_train = x_train.reshape(8164, 4, 3)
-x_test = x_test.reshape(2722, 4, 3) 
-test_set = test_set.reshape(6493, 4, 3) 
-print(x_train.shape)
-print(np.unique(y_train, return_counts=True))
-#################################################
+x2_train = x2_train.reshape(812*19, 10)
+x2_train = scaler.fit_transform(x2_train)
+x2_test = x2_test.reshape(204*19, 10)
+x2_test = scaler.transform(x2_test)
 
-
-#2. 모델구성
-
-# model = load_model("./_save/keras22_hamsu10_kaggle_bike.h5")
-
-# model = Sequential()
-# model.add(Dense(100, activation='swish', input_dim=12))
-# model.add(Dense(100, activation='elu'))
-# model.add(Dense(100, activation='swish'))
-# model.add(Dense(100, activation='elu'))
-# model.add(Dense(1))
-
-model = Sequential()
-model.add(LSTM(200, return_sequences=True, input_shape=(4,3)))
-model.add(LSTM(100))
-model.add(Dense(256))
-model.add(Dropout(0.3))
-model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(64, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(32, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(16, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(1))
+x1_train = x1_train.reshape(812, 19, 10)
+x1_test = x1_test.reshape(204, 19, 10)
+x2_train = x2_train.reshape(812, 19, 10)
+x2_test = x2_test.reshape(204, 19, 10)
 
 
-#3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
-import datetime
+
+''' 2. 모델 구성 '''
+# 2-1. x1 모델
+input1 = Input(shape=(19, 10))
+dense1 = Conv1D(128, 2, activation='relu', name='ms1')(input1)
+dense2 = (LSTM(128, activation='relu', name='ms2'))(dense1)
+dense3 = Dense(64, activation='relu', name='ms3')(dense2)
+output1 = Dense(64, activation='relu', name='out_ms1')(dense3)
+
+# 2-2. x2 모델
+input2 = Input(shape=(19, 10))
+dense11 = Conv1D(128, 2, activation='relu', name='ms11')(input2)
+dense12 = (LSTM(128, activation='relu', name='ms12'))(dense11)
+dense13 = Dense(64, activation='relu', name='ms13')(dense12)
+output2 = Dense(64, activation='relu', name='out_ms2')(dense13)
+
+# 앙상블
+from tensorflow.python.keras.layers import concatenate
+merge1 = concatenate([output1, output2], name='mg1')
+merge2 = Dense(64, activation='relu', name='mg2')(merge1)
+merge3 = Dense(32, activation='relu', name='mg3')(merge2)
+last_output = Dense(1, activation='relu', name='last')(merge3)
+model = Model(inputs=[input1, input2], outputs=[last_output])
+# model.summary()
+
+''' 3. 컴파일, 훈련 '''
+model.compile(loss='mse', optimizer='adam')
+
 date = datetime.datetime.now()
-date = date.strftime("%m%d_%H%M") # 0707_1723
-print(date)
-
-filepath = './_ModelCheckPoint/' + current_name + '/'
+date = date.strftime("%Y%m%d_%H%M") 
+save_filepath = './_test/' + current_name + '/'
+load_filepath = './_test/' + current_name + '/'
+# model = load_model(load_filepath + '0708_1753_0011-0.0731.hdf5')
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'
 
-earlyStopping = EarlyStopping(monitor='val_loss', patience=100, mode='auto', verbose=1, 
-                              restore_best_weights=True)        
-
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, 
-                      filepath= "".join([filepath, date, '_', filename])
-                      )
-
-hist = model.fit(x_train, y_train, epochs=10, batch_size=100,
-                 validation_split=0.2,
-                 callbacks=[earlyStopping],
-                 verbose=1)
-
-model.summary()
-#4. 평가, 예측
-loss = model.evaluate(x_train, y_train) 
-print('loss : ', loss)
-
-y_predict = model.predict(x_test)
-
-def RMSE(a, b): 
-    return np.sqrt(mean_squared_error(a, b))
-
-rmse = RMSE(y_test, y_predict)
-
-from sklearn.metrics import r2_score
-r2 = r2_score(y_test, y_predict)
-
-print('loss : ', loss)
-print("RMSE : ", rmse)
-print('r2스코어 : ', r2)
-
-# y_summit = model.predict(test_set)
-
-# print(y_summit)
-# print(y_summit.shape) # (6493, 1)
-
-# submission_set = pd.read_csv(path + 'sampleSubmission.csv', # + 명령어는 문자를 앞문자와 더해줌
-#                              index_col=0) # index_col=n n번째 컬럼을 인덱스로 인식
-
-# print(submission_set)
-
-# submission_set['count'] = y_summit
-# print(submission_set)
+es = EarlyStopping(monitor='val_loss', patience=50, mode='auto', verbose=1, restore_best_weights=True)     
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1, save_best_only=True, filepath= "".join([save_filepath, date, '_', filename]))   
+hist = model.fit([x1_train, x2_train], y_train, epochs=1000, batch_size=128, validation_split=0.1, callbacks=[es,mcp], verbose=1)
 
 
-# submission_set.to_csv(path + 'submission_robust_scaler.csv', index = True)
-'''
+''' 4. 평가, 예측 '''
+loss = model.evaluate([x1_test, x2_test], y_test)
+print('loss : ' , loss)
+y_predict = model.predict([x1_test, x2_test])
+print('7월 20일 예측 종가 : ', y_predict[-1:])
+# loss :  594746816.0
+# 7월 20일 예측 종가 :  [[160947.02]]
+# loss :  488668352.0
+# 7월 20일 예측 종가 :  [[129772.9]]
