@@ -53,9 +53,7 @@ print(x.shape, y.shape)
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, shuffle=True)
 print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
-# (821, 200, 200, 3) (206, 200, 200, 3) (821, 2) (206, 2)
-# (821, 200, 200, 3) (206, 200, 200, 3) (821, 2) (206, 2)
-# (821, 200, 200, 3) (206, 200, 200, 3) (821, 2) (206, 2)
+# 
 
 # # print(xy_train[0][0].shape, xy_train[0][1].shape) # 
 # # print(xy_test[0][0].shape, xy_test[0][1].shape) # 

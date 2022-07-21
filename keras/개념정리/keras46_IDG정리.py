@@ -31,7 +31,7 @@ test_datagen = ImageDataGenerator(
 ''' 1-2. flow_from_directory '''
 xy_train = train_datagen.flow_from_directory('d:/study_data/_data/image/brain/train/', # 이미지 데이터를 받아올 경로를 설정 해줌
                                              target_size=(200, 200),                   # 이미지 크기 조절. 고르지 않은 크기들을 가로세로 픽셀 사이즈를 지정해줌. 내 맘대로 가능
-                                             batch_size=5,                             # 
+                                             batch_size=1,                             # 이건 그냥 냅다 1억 정도 박자. 어차피 밑에서 걍 model.fit 쓰면 배치사이즈 지정 가능
                                              class_mode='binary',                      # 0, 1 분류. 이진분류. (3가지 이상은 categorical)
                                              color_mode='grayscale',                   # 이걸 따로 지정해주지 않으면 디폴트값은 컬러로 나옴. 밑에 print(xy_train[31][0].shape) 참고
                                              shuffle=True,                             # 훈련시킬때의 batch_size를 여기서 지정해줌
@@ -84,6 +84,7 @@ print(type(xy_train[0][1]))    # y <class 'numpy.ndarray'>
 ''' 1-4. 전처리된 이미지 데이터 저장 '''
 # 이미지 개수가 많아지면 불러올 때마다 로딩 시간이 너무 길어짐 (모델 한번 돌릴 때마다 불러와야 함)
 # 그래서 데이터를 수치화 시켜서 저장을 해놓고 필요할 때 그냥 그 저장해놓은 파일을 불러오기만 하면됨
+# 나중에 크기가 커지면 csv 파일도 이렇게 변환해서 저장 해놓고 불러오는 게 더 빠를 수 있음
 np.save('경로', arr=xy_train[0][0]) #
 np.save('경로', arr=xy_train[0][1]) # 
 np.save('경로', arr=xy_test[0][0])   # 

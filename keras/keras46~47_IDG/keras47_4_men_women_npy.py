@@ -63,7 +63,7 @@ print('val_accuracy : ', val_accuracy[-1])
 
 # 4. 평가, 예측
 loss = model.evaluate(x_test, y_test)  
-print(loss)                     # [0.1567889153957367, 0.946601927280426]
+print(loss)                    
 
 pic_path = 'd:/study_data/_data/image/내사진/2.jpg'
 
