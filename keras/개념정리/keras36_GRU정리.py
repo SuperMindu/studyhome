@@ -10,12 +10,12 @@ from tensorflow.python.keras.callbacks import EarlyStopping
 # 또한, LSTM에서의 Cell State와 Hidden State가 Hidden State로 통합되었고
 # Update Gate가 LSTM에서의 forget gate, input gate를 제어한다.
 # GRU에는 Output Gate가 없다.
-# Reset Gate
 
+# Reset Gate
 # 이전 상태의 hidden state와 현재 상태의 x를 받아 sigmoid 처리
 # 이전 hidden state의 값을 얼마나 활용할 것인지에 대한 정보
-# Update Gate
 
+# Update Gate
 # 이전 상태의 hidden state와 현재 상태의 x를 받아 sigmoid 처리
 # LSTM의 forget gate, input gate와 비슷한 역할을 하며,
 # 이전 정보와 현재 정보를 각각 얼마나 반영할 것인지에 대한 비율을 구하는 것이 핵심이다.

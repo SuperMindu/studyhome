@@ -12,9 +12,9 @@ model = Sequential()
 # model.summary()  # (input_dim + bias) * units = summary Param 갯수 (Dense레이어 모델)
 
 model.add(Conv2D(filters=10, kernel_size=(2,2), # 출력 (N, 4, 4, 10) # kernel_size=(이미지를 자르는 규격) 
-                 input_shape=(5, 5, 1))) # (N, 5, 5, 1) -> (batch_size, rows, colums, channels) -> (이미지 개수, 행, 열, 흑백 or 컬러 정의) 
+                 input_shape=(5, 5, 1))) # (N, 5, 5, 1) = (batch_size, rows, colums, channels) = (이미지 개수, 행, 열, 흑백 or 컬러 정의) 
 #                └> 이 input_shape는 모델에서 첫 레이어에서만 정의하면 됨
-# 다음 레이어의 input_shape으로 전달 될 때는 (n, 4, 4, 10) -> (N, (input_shape행-커널사이즈의 행)+1/1, (input_shape열-커널사이즈의 열)+1/1, 필터값)
+# 다음 레이어의 input_shape으로 전달 될 때는 (n, 4, 4, 10) = (N, (input_shape행-커널사이즈의 행)+1/1, (input_shape열-커널사이즈의 열)+1/1, 필터값)
 # model.summary()  # (kernel_size * channels + bias) * filters = summary Param 갯수 (CNN 모델)
 
 # model.add(Conv2D(7, (2,2), activation='relu')) 
@@ -30,7 +30,7 @@ model.add(Conv2D(7, (2,2),
 # 따라서 Dense 형태로 바꿔줘야 함 (4차원의 형태를 2차원의 형태로 바꿔줘야 함)
 # 어느정도 작업을 하다가 중간에 쫙 펴줌 (reshape 개념) 그 뒤로 Dense 레이어로 진행
 
-model.add(Flatten()) # <- 쫙 펴주기 위해선 얘를 써줘야 함. 위에서 넘겨주는 값을 일렬로 쭉 나열해서 -> (N, 63) 그래서 이렇게 바뀜 
+model.add(Flatten()) # <- 쫙 펴주기 위해선 얘를 써줘야 함. 위에서 넘겨주는 값을 None값 빼고 전부 곱해서 일렬로 쭉 나열해줌 -> (N, 63) 그래서 이렇게 바뀜 
 
 model.add(Dense(32, activation='relu'))
 model.add(Dense(32, activation='relu'))
