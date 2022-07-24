@@ -58,7 +58,7 @@ model.add(Dense(46, activation='softmax'))
 
 # 3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=20, batch_size=16, verbose=1)
+model.fit(x_train, y_train, epochs=20, batch_size=128, verbose=1)
 
 # 4. 평가, 예측
 acc = model.evaluate(x_test, y_test)[1] # <- 이렇게 해서 loss나 acc를 선택해서 호출할 수 있음
