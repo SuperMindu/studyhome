@@ -1,16 +1,24 @@
 # https://www.youtube.com/watch?v=1b7pXC1-IbE <--- 유튜브 참고 
 # https://velog.io/@jungeun-dev/Python-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81Selenium-%EA%B5%AC%EA%B8%80-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%88%98%EC%A7%91 <-- 
+# https://yobbicorgi.tistory.com/29 < --- 여기가 찐또배기
+
 
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import os
+from selenium.webdriver.chrome.options import Options
 import time
 import urllib.request # <- 이미지 url 주소로 다운받을 때 필요
+
+# op = Options()
+# op.add_experimental_option('prefs',{'download.default_directiory':r'd:/study_data/_data/image/PP/'})
+# urllib.request.urlretrieve(imgUrl, 'filePath' + 'fileName' + ".fileForm")
 
 driver = webdriver.Chrome() # 크롬드라이버 설치한 경로 작성 필요 
 driver.get("https://www.google.co.kr/imghp?hl=ko&tab=ri&ogbl") # 구글 이미지 검색 url
 elem = driver.find_element_by_name("q") # 구글 검색창 선택
-elem.send_keys("ironman") # 검색창에 검색할 내용(name)넣기
+elem.send_keys("iron man") # 검색창에 검색할 내용(name)넣기
 elem.send_keys(Keys.RETURN) # enter 입력
 
 '''
@@ -34,29 +42,29 @@ urllib.request.urlretrieve(imgUrl, "test.jpg") # <- 이미지 url 주소로 다�
 # 반복 작업이 필요할 떈 뭐다? ㅎㅎ
 '''
 
-SCROLL_PAUSE_TIME = 1.5
+# SCROLL_PAUSE_TIME = 1.5
 
-# Get scroll height
-last_height = driver.execute_script("return document.body.scrollHeight") 
-# execute_script는 JavaScript코드를 실행하는 코드임. 그리고 괄호 안의 JavaScript코드는 브라우저의 높이를 알 수 있는 코드임
-# 즉, 브라우저의 높이를 알 수 있는 자바코드를 실행시켜서 그 값을 last_height 이라는 변수에 저장해줌
+# # Get scroll height
+# last_height = driver.execute_script("return document.body.scrollHeight") 
+# # execute_script는 JavaScript코드를 실행하는 코드임. 그리고 괄호 안의 JavaScript코드는 브라우저의 높이를 알 수 있는 코드임
+# # 즉, 브라우저의 높이를 알 수 있는 자바코드를 실행시켜서 그 값을 last_height 이라는 변수에 저장해줌
 
-while True: # 무한반복
-    # Scroll down to bottom
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") # 대충 브라우저의 끝까지 스크롤을 내리겠다는 자바 코드임
+# while True: # 무한반복
+#     # Scroll down to bottom
+#     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") # 대충 브라우저의 끝까지 스크롤을 내리겠다는 자바 코드임
 
-    # Wait to load page
-    time.sleep(SCROLL_PAUSE_TIME) # 로드 될때 동안 SCROLL_PAUSE_TIME 값 만큼 기다려주겠다는 뜻
+#     # Wait to load page
+#     time.sleep(SCROLL_PAUSE_TIME) # 로드 될때 동안 SCROLL_PAUSE_TIME 값 만큼 기다려주겠다는 뜻
 
-    # Calculate new scroll height and compare with last scroll height
-    new_height = driver.execute_script("return document.body.scrollHeight") # 로딩이 끝나고 나면 이번엔 브라우저의 높이를 다시 구해서 new_height 라는 변수에 담아줌
-    if new_height == last_height: # 만약에 새로 구한 높이랑 이전 높이랑 같다면 (스크롤을 내렸을 때 더 나오는 게 없다면)
-        try:
-            driver.find_element_by_css_selector(".mye4qd").click() # <- '결과 더보기' 버튼이 나오면 클릭해라 
-        except:
-            break
-        # break # 무한루프를 빠져나오겠다
-    last_height = new_height
+#     # Calculate new scroll height and compare with last scroll height
+#     new_height = driver.execute_script("return document.body.scrollHeight") # 로딩이 끝나고 나면 이번엔 브라우저의 높이를 다시 구해서 new_height 라는 변수에 담아줌
+#     if new_height == last_height: # 만약에 새로 구한 높이랑 이전 높이랑 같다면 (스크롤을 내렸을 때 더 나오는 게 없다면)
+#         try:
+#             driver.find_element_by_css_selector(".mye4qd").click() # <- '결과 더보기' 버튼이 나오면 클릭해라 
+#         except:
+#             break
+#         # break # 무한루프를 빠져나오겠다
+#     last_height = new_height
 # 하지만 구글 이미지 로딩창 에서는 맨 마지막에 스크롤은 더 안 내려가는데 '결과 더보기' 버튼이 있는 경우가 있어서 클릭을 하면 이미지가 더 나오는 경우가 있음
 # 그래서 그 버튼을 클릭하는 코드를 while문 안에 넣어줘야 함
 
@@ -66,14 +74,15 @@ while True: # 무한반복
 # 이렇게 해야 비로소 아래의 이미지 다운 코드를 실행시킬 수 있음
 # 들여쓰기에 유의하자
 
-'''
+
 images = driver.find_elements_by_css_selector(".rg_i.Q4LuWd") # 이미지의 클래스 이름을 images 라는 변수에 담아주고 
 count = 1
 for image in images: # 이미지들 중에 각각 개별 이미지를 하나씩 뽑아서
     image.click() # 그 이미지를 클릭하도록 해줌
-    time.sleep(3) # 로딩시간 감안해서 3초 대기하고
+    time.sleep(2.5) # 로딩시간 감안해서 3초 대기하고
     imgUrl = driver.find_element_by_css_selector(".n3VNCb").get_attribute("src") # url을 찾아서 
-    urllib.request.urlretrieve(imgUrl, str(count) + ".jpg") # 다운 받도록 만들면 됨 
+    urllib.request.urlretrieve(imgUrl, 'd:/study_data/_data/image/PP/' + str(count) + ".jpg") # <- 이게 다운받을 폴더명 지정해서 받음
+    # urllib.request.urlretrieve(imgUrl, str(count) + ".jpg") # 다운 받도록 만들면 됨 
     count = count + 1
 # 근데 우리는 다운받은 이미지들의 이름을 똑같이 저장하면 안되니까 위에 count라는 변수를 지정해주고 그 값을 1로 줘서 다운을 받을 때마다 파일 이름 숫자가 1씩 늘어나면서 저장되게끔 해줌
 # 이 count로 이름을 지정해줘야 함 근데 count는 숫자형이기 때문에 문자형끼리 더해질 수 있게 str()로 감싸줘서 string형 자료형으로 만들어줌
@@ -82,7 +91,7 @@ for image in images: # 이미지들 중에 각각 개별 이미지를 하나씩 
 # 근데 컴터는 그걸 못하기 때문에 이걸 또 코딩 해줘야 함 
 # 근데 이미지 다운받기 전에 미리 스크롤을 바닥까지 내려놓고 그다음에 다운을 받게 시키면 더 시간이 절약되지 않을까? 
 # 그래서 검색을 마치고 난 직후에 스크롤다운 코드를 넣어줌 36번째 줄부터 참고 해봐
-'''
+
 
 time.sleep(5) # n초의 시간동안 대기
 
@@ -95,4 +104,5 @@ time.sleep(5) # n초의 시간동안 대기
 driver.close()
 
 # 자 이걸 응용해서 내가 원하는 경로에 원하는 파일명을 생성해서 그 안에 저장해주는 코드도 추가 해주자
+
 
