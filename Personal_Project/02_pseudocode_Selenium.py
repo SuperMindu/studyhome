@@ -75,7 +75,7 @@ if not os.path.isdir(img_folder) : # 없으면 새로 생성하는 조건문
 
 
 # 다운로드
-images = driver.find_elements(by=css, value=".rg_i.Q4LuWd")
+# images = driver.find_elements(by=css, value=".rg_i.Q4LuWd")
 images = driver.find_elements_by_css_selector(".rg_i.Q4LuWd") 
 count = 1
 for image in images: 

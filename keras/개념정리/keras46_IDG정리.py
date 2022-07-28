@@ -34,7 +34,7 @@ xy_train = train_datagen.flow_from_directory('d:/study_data/_data/image/brain/tr
                                              batch_size=1,                             # 이건 그냥 냅다 1억 정도 박자. 어차피 밑에서 걍 model.fit 쓰면 배치사이즈 지정 가능
                                              class_mode='binary',                      # 0, 1 분류. 이진분류. (3가지 이상은 categorical)
                                              color_mode='grayscale',                   # 이걸 따로 지정해주지 않으면 디폴트값은 컬러로 나옴. 밑에 print(xy_train[31][0].shape) 참고
-                                             shuffle=True,                             # 훈련시킬때의 batch_size를 여기서 지정해줌
+                                             shuffle=True, seed=66,                    # 안의 내용을 섞어줌  randomstate와 마찬가지로 랜덤값 고정. 변환할 정도를 랜덤셔플하게 섞어줌
                                              save_to_dir='경로 지정'                    # 건든 데이터를 출력해서 보여줌(?)
                                              ) 
 # Found 160 images belonging to 2 classes. (flow_from_directory를 통과했을 때 160개의 이미지와 2개의 클래스가 됨)

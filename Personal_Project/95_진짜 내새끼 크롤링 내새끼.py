@@ -14,7 +14,8 @@ import urllib.request # <- 이미지 url 주소로 다운받을 때 필요
 # op = Options()
 # op.add_experimental_option('prefs',{'download.default_directiory':r'd:/study_data/_data/image/PP/'})
 # urllib.request.urlretrieve(imgUrl, 'filePath' + 'fileName' + ".fileForm")
-keyword = 'mark43'
+keyword = '전신샷'
+img_number = 100
 chromedriver = 'c:/study/chromedriver.exe' # 크롬드라이버 파일을 놔둔 경로 작성 필요 
 driver = webdriver.Chrome(chromedriver) 
 driver.get("https://www.google.co.kr/imghp?hl=ko&tab=ri&ogbl") # 구글 이미지 검색 url
@@ -82,15 +83,24 @@ urllib.request.urlretrieve(imgUrl, "test.jpg") # <- 이미지 url 주소로 다�
 # 들여쓰기에 유의하자
 
 
+img_folder = f"d:/PP/{keyword}"
+ 
+if not os.path.isdir(img_folder) : # 없으면 새로 생성하는 조건문 
+    os.mkdir(img_folder)
+
+
 images = driver.find_elements_by_css_selector(".rg_i.Q4LuWd") # 이미지의 클래스 이름을 images 라는 변수에 담아주고 
 count = 1
 for image in images: # 이미지들 중에 각각 개별 이미지를 하나씩 뽑아서
     image.click() # 그 이미지를 클릭하도록 해줌
-    time.sleep(2.5) # 로딩시간 감안해서 3초 대기하고
+    time.sleep(3) # 로딩시간 감안해서 3초 대기하고
     imgUrl = driver.find_element_by_css_selector(".n3VNCb").get_attribute("src") # url을 찾아서 
-    urllib.request.urlretrieve(imgUrl, 'd:/PP/' + str(count) + ".jpg") # <- 이게 다운받을 폴더명 지정해서 받음
+    path = "D:/PP/" + keyword + "/"
+    urllib.request.urlretrieve(imgUrl, path +  str(count) + ".jpg")
     # urllib.request.urlretrieve(imgUrl, str(count) + ".jpg") # 다운 받도록 만들면 됨 
     count = count + 1
+    if count >= img_number: #이미지 장수 선택 
+        break
 # 근데 우리는 다운받은 이미지들의 이름을 똑같이 저장하면 안되니까 위에 count라는 변수를 지정해주고 그 값을 1로 줘서 다운을 받을 때마다 파일 이름 숫자가 1씩 늘어나면서 저장되게끔 해줌
 # 이 count로 이름을 지정해줘야 함 근데 count는 숫자형이기 때문에 문자형끼리 더해질 수 있게 str()로 감싸줘서 string형 자료형으로 만들어줌
 # 이렇게 하면 50장 밖에 저장이 안됨. 왜? why? 처음에 이미지를 검색을 했을때 나오는 이미지의 개수가 50개이기 때문에
