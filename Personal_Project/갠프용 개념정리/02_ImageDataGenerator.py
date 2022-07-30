@@ -11,10 +11,10 @@ train_datagen = ImageDataGenerator(
     rescale=1./255,                      # 0부터 256까지의 숫자들로 구성되어있는 이미지를 학습을 위해 0과 1 사이로 피처스케일링함. MinMax 와 같은 의미
     featurewise_center=False,            # True = 데이터셋 전체에서 입력의 평균을 0으로 함
     samplewise_center=False,             # True = 각 샘플의 평균을 0으로 함
-    featurewise_std_normalization=False, # True = 入力をデータセットの標準偏差で正規化します
-    samplewise_std_normalization=False,  # True = 各入力をその標準偏差で正規化します
-    zca_whitening=False,                 # True = ZCA白色化を適用します
-    zca_epsilon=1e-06,                   # ZCA白色化のイプシロン．デフォルトは1e-6
+    featurewise_std_normalization=False, # True = 入力をデータセットの標準偏差で正規化します 입력 데이터셋을 표준편차로 정규화 시킴
+    samplewise_std_normalization=False,  # True = 各入力をその標準偏差で正規化します 각 입력을 그 표준편차로 정규화 시킴
+    zca_whitening=False,                 # True = ZCA白色化を適用します ZCA 백색화를 적용시킴
+    zca_epsilon=1e-06,                   # ZCA白色化のイプシロン．デフォルトは1e-6 ZCA 백색화의 epsilon. 디폴트는 1e-6
     rotation_range=0.0,                  # 지정된 각도 내에서 이미지를 무작위로 회전시킴
     width_shift_range=0.0,               # 전체 넓이에 0.0를 곱한 범위 내에서 원본 이미지를 무작위로 수평 이동 시킴
     height_shift_range=0.0,              # 전체 넓이의 0.0를 곱한 범위 내에서 원본 이미지를 무작위로 수직 이동 시킴

@@ -63,7 +63,7 @@ def crawling_img(name):
             path = "D:/PP/" + name + "/"
             urllib.request.urlretrieve(imgUrl, path + f"{name}" + str(count) + ".jpg")
             count = count + 1
-            img_number = 100
+            img_number = 300
             if count >= img_number: # 이미지 장수 선택 
                 break
         except:
@@ -73,3 +73,4 @@ images = ["전신샷"]
 
 for image in images:
     crawling_img(image)
+    
