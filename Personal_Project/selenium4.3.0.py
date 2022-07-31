@@ -6,7 +6,7 @@ import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen 
 
 # selenium 최신버전으로 문법이 바꼈다. 바뀐걸로 적용해줌.
 # Chrome 드라이버 자동으로 잡아주는게 추가됨(Service, ChromeDriverManager)
