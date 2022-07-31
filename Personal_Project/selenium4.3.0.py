@@ -58,7 +58,7 @@ def crawling_img(name):
     for img in imgs:
         try:
             img.click()
-            time.sleep(2)
+            time.sleep(2.5)
             imgUrl = driver.find_element(By.XPATH,'//*[@id="Sva75c"]/div/div/div[3]/div[2]/c-wiz/div/div[1]/div[1]/div[3]/div/a/img').get_attribute("src")
             path = "D:/PP/" + name + "/"
             urllib.request.urlretrieve(imgUrl, path + f"{name}" + str(count) + ".jpg")
@@ -69,7 +69,7 @@ def crawling_img(name):
         except:
             print("path 다시 확인 해라!!!") # 경로못찾으면 패~쓰~~~~~
     driver.close()
-images = ["전신샷"]
+images = ["여고딩"]
 
 for image in images:
     crawling_img(image)
