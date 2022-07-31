@@ -1,7 +1,7 @@
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator 
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Conv2D, Flatten
+from tensorflow.python.keras.layers import Dense, Conv2D, Flatten 
 import matplotlib.pyplot as plt 
 
 
