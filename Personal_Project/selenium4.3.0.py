@@ -69,7 +69,7 @@ def crawling_img(name):
         except:
             print("path 다시 확인 해라!!!") # 경로못찾으면 패~쓰~~~~~
     driver.close()
-images = ["여고딩"]
+images = ["전신샷"]
 
 for image in images:
     crawling_img(image)
